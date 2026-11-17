@@ -1,4 +1,4 @@
-# Dexa WFH Attendance
+# Employee Attendance Management
 
 A full-stack work-from-home attendance MVP for employees and HR. Employees sign in and submit daily attendance with photo proof; HR manages employee accounts and reviews attendance records.
 
@@ -112,27 +112,12 @@ All endpoints use the `/api/v1` prefix.
 
 See the live [Swagger UI](http://localhost:3000/api/v1/docs) or the [API contract](docs/api-contract.md) for request and response details.
 
-## Checks
-
-Run from the repository root:
-
-```powershell
-pnpm lint
-pnpm typecheck
-pnpm test
-pnpm build
-pnpm format:check
-```
-
-Employee and attendance integration tests use separate migrated test databases. Set `EMPLOYEE_TEST_DATABASE_URL` and `ATTENDANCE_TEST_DATABASE_URL` to enable their respective suites. Each suite is skipped if its variable is unset. Never point test variables at a database containing real data.
-
 ## Project structure
 
 ```text
 apps/
   api/       NestJS API, Prisma schema, and migrations
   web/       React application
-docs/        Requirements, architecture, data model, and API contract
 ```
 
 ## Known limitations
