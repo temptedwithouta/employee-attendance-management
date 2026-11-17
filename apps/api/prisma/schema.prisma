@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum UserRole {
+  EMPLOYEE
+  HR
+}
+
+model Employee {
+  id             String         @id @default(uuid()) @db.Char(36)
+  employeeNumber String         @unique @db.VarChar(64)
+  name           String         @db.VarChar(150)
+  email          String         @unique @db.VarChar(191)
+  department     String         @db.VarChar(100)
+  position       String         @db.VarChar(100)
+  status         EmployeeStatus @default(ACTIVE)
+  user           User?
+  attendances    Attendance[]
+  createdAt      DateTime       @default(now()) @db.DateTime(3)
+  updatedAt      DateTime       @updatedAt @db.DateTime(3)
+}
+
+model User {
+  id           String    @id @default(uuid()) @db.Char(36)
+  employeeId   String?   @unique @db.Char(36)
+  employee     Employee? @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+  email        String    @unique @db.VarChar(191)
+  passwordHash String    @db.VarChar(255)
+  role         UserRole
+  createdAt    DateTime  @default(now()) @db.DateTime(3)
+  updatedAt    DateTime  @updatedAt @db.DateTime(3)
+}
+
+model Attendance {
+  id             String   @id @default(uuid()) @db.Char(36)
+  employeeId     String   @db.Char(36)
+  employee       Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+  attendanceDate DateTime @db.Date
+  submittedAt    DateTime @default(now()) @db.DateTime(3)
+  photoPath      String   @db.VarChar(255)
+  createdAt      DateTime @default(now()) @db.DateTime(3)
+
+  @@unique([employeeId, attendanceDate])
+  @@index([attendanceDate])
+}

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.github/
+.idea/
+.superpowers/
+docs/
+.env
+.env.*
+!.env.example
+.vite/
+*.log
+apps/api/uploads/
